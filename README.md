@@ -27,7 +27,7 @@ az group create --name GROUPNAME --location westeurope
 
 Run the template to deploy the initial infrastructure
 ```
-az deployment group create --resource-group online-campus --template-file .\template.json
+az deployment group create --resource-group GROUPNAME --template-file .\infrastructure\azuredeploy.json
 ```
 
 ### Deploy logic
