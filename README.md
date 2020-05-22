@@ -8,10 +8,9 @@ Setup example infrastructure
 
 ### Create infrastructure with Azure Resource Manager template
 
-Install [Azure CLI] (https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest#install-or-update)
+Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest#install-or-update)
 
 Login to your Azure Subscription
-
 ```
 az login
 ```
@@ -30,3 +29,5 @@ Run the template to deploy the initial infrastructure
 ```
 az deployment group create --resource-group online-campus --template-file .\template.json
 ```
+
+### Deploy logic
