@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Tracking;
 
-namespace function01
+namespace functionNet01
 {
     public static class HttpGet01
     {

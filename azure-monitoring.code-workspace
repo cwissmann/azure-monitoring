@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "infrastructure"
+		},
+		{
+			"path": "functionNet01"
+		},
+		{
+			"path": "functionNode01"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	}
+}
