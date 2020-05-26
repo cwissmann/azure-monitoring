@@ -10,7 +10,8 @@
     "variables": {
         "appInsights_Name": "[concat(parameters('resource-prefix'), 'appinsights01')]",
         "storage_Name": "[concat(parameters('resource-prefix'), 'storage01')]",
-        "function01_Name": "[concat(parameters('resource-prefix'), 'function01')]",
+        "functionNet01_Name": "[concat(parameters('resource-prefix'), 'functionNet01')]",
+        "functionNode01_Name": "[concat(parameters('resource-prefix'), 'functionNode01')]",
         "hostingPlan_Name": "[concat(parameters('resource-prefix'), 'hostingPlan01')]"
     },
     "resources": [
@@ -41,7 +42,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
-            "name": "[variables('function01_Name')]",
+            "name": "[variables('functionNet01_Name')]",
             "location": "[resourceGroup().location]",
             "kind": "functionapp",
             "dependsOn": [
@@ -50,7 +51,7 @@
                 "[concat('microsoft.insights/components/', variables('appInsights_Name'))]"
             ],
             "properties": {
-                "name": "[variables('function01_Name')]",
+                "name": "[variables('functionNet01_Name')]",
                 "siteConfig": {
                     "appSettings": [
                         {
@@ -71,15 +72,70 @@
                         },
                         {
                             "name": "AzureWebJobsStorage",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_Name'),';AccountKey=',listKeys(resourceId('7a223e11-1c50-4f7c-9b6c-8b2edc17e21e','online-campus','Microsoft.Storage/storageAccounts', variables('storage_Name')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_Name'),';AccountKey=',listKeys(resourceId(subscription().subscriptionId,resourceGroup().name,'Microsoft.Storage/storageAccounts', variables('storage_Name')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
                         },
                         {
                             "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_Name'),';AccountKey=',listKeys(resourceId('7a223e11-1c50-4f7c-9b6c-8b2edc17e21e','online-campus','Microsoft.Storage/storageAccounts', variables('storage_Name')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_Name'),';AccountKey=',listKeys(resourceId(subscription().subscriptionId,resourceGroup().name,'Microsoft.Storage/storageAccounts', variables('storage_Name')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
                         },
                         {
                             "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[concat(toLower(variables('function01_Name')), 'b22c')]"
+                            "value": "[concat(toLower(variables('functionNet01_Name')), 'b22c')]"
+                        }
+                    ]
+                },
+                "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlan_Name'))]",
+                "hostingEnvironment": "",
+                "clientAffinityEnabled": true
+            }
+        },
+        {
+            "apiVersion": "2018-11-01",
+            "name": "[variables('functionNode01_Name')]",
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp",
+            "location": "[resourceGroup().location]",
+            "tags": {},
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', variables('hostingPlan_Name'))]",
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storage_Name'))]",
+                "[concat('microsoft.insights/components/', variables('appInsights_Name'))]"
+            ],
+            "properties": {
+                "name": "[variables('functionNode01_Name')]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "node"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components', variables('appInsights_Name')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                            "value": "[concat('InstrumentationKey=', reference(resourceId('microsoft.insights/components', variables('appInsights_Name')), '2015-05-01').InstrumentationKey)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_Name'),';AccountKey=',listKeys(resourceId(subscription().subscriptionId,resourceGroup().name,'Microsoft.Storage/storageAccounts', variables('storage_Name')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storage_Name'),';AccountKey=',listKeys(resourceId(subscription().subscriptionId,resourceGroup().name,'Microsoft.Storage/storageAccounts', variables('storage_Name')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTSHARE",
+                            "value": "[concat(toLower(variables('functionNode01_Name')), 'a0c4')]"
+                        },
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "~12"
                         }
                     ]
                 },

@@ -31,3 +31,9 @@ az deployment group create --resource-group GROUPNAME --template-file .\infrastr
 ```
 
 ### Deploy logic
+
+Deploy **functionNet01** to the associated Azure function.
+
+### Configure ApplicationInsights
+
+Open appinsights01 resource on Azure. 
