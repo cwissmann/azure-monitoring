@@ -7,20 +7,24 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Tracking;
 
 namespace function01
 {
     public static class HttpGet01
     {
         [FunctionName("HttpGet01")]
-        public static async Task<IActionResult> Run(
+        public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string responseMessage = "Hello Campus";
+            var trackingService = new TrackingService();
+            trackingService.TrackCustomEvent();
+            trackingService.TrackCustomMetric();
 
+            string responseMessage = "Hello Campus";
             return new OkObjectResult(responseMessage);
         }
     }
