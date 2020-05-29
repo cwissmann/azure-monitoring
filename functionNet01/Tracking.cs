@@ -14,6 +14,7 @@ namespace Tracking
             var dictionary = new Dictionary<string, string>();
             dictionary.Add("name", "Campus Event");
             dictionary.Add("prop1", "Lorem ipsum");
+            dictionary.Add("prop2", "Lorem ipsum");
             _telemetryClient.TrackEvent("", dictionary);
         }
 

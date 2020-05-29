@@ -12,11 +12,11 @@ using Tracking;
 
 namespace functionNet01
 {
-    public static class HttpGet01
+    public static class HttpGet02
     {
-        [FunctionName("HttpGet01")]
+        [FunctionName("HttpGet02")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -25,9 +25,9 @@ namespace functionNet01
             trackingService.TrackCustomEvent();
             trackingService.TrackCustomMetric();
 
-            Thread.Sleep(new Random().Next(1,4) * 1000);
+            Thread.Sleep(new Random().Next(4,8) * 1000);
 
-            log.LogInformation("HttpGet01 log information");
+            log.LogInformation("HttpGet02 log information");
 
             string responseMessage = "Hello Campus";
             return new OkObjectResult(responseMessage);
