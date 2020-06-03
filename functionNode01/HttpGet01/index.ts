@@ -9,7 +9,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context.log('HTTP trigger function processed a request.');
     const name = (req.query.name || (req.body && req.body.name));
 
-    client.trackEvent({name: "NodeEvent", properties: {prop1: "Prop1"}});
+    client.trackEvent({name: "NodeEvent", properties: {prop1: "Prop1", prop2: "Prop2"}});
     client.trackException({exception: new Error("NodeException from node function")});
     client.trackMetric({name: "NodeMetric", value: Math.random()});
     client.trackTrace({message: "Node trace message"});    
