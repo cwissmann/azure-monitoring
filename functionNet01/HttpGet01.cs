@@ -22,8 +22,8 @@ namespace functionNet01
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             var trackingService = new TrackingService();
-            trackingService.TrackCustomEvent();
-            trackingService.TrackCustomMetric();
+            trackingService.TrackCustomEvent("CampusEvent", "Lorem ipsum from HttpGet01");
+            trackingService.TrackCustomMetric("Campus", new Random().NextDouble()*10);
 
             Thread.Sleep(new Random().Next(1,4) * 1000);
 

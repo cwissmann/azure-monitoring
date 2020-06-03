@@ -9,20 +9,18 @@ namespace Tracking
     {
         private readonly TelemetryClient _telemetryClient = new TelemetryClient();
 
-        public void TrackCustomEvent()
+        public void TrackCustomEvent(string name, string message)
         {
             var dictionary = new Dictionary<string, string>();
-            dictionary.Add("name", "Campus Event");
-            dictionary.Add("prop1", "Lorem ipsum");
-            dictionary.Add("prop2", "Lorem ipsum");
-            _telemetryClient.TrackEvent("", dictionary);
+            dictionary.Add("name", message);
+            _telemetryClient.TrackEvent(name, dictionary);
         }
 
-        public void TrackCustomMetric()
+        public void TrackCustomMetric(string name, double sum)
         {
             var metric = new MetricTelemetry();
-            metric.Name = "Campus Metric";
-            metric.Sum = new Random().NextDouble()*10;
+            metric.Name = $"{name} Metric";
+            metric.Sum = sum;
             _telemetryClient.TrackMetric(metric);
         }
     }
