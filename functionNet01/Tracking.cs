@@ -12,7 +12,8 @@ namespace Tracking
         public void TrackCustomEvent(string name, string message)
         {
             var dictionary = new Dictionary<string, string>();
-            dictionary.Add("name", message);
+            dictionary.Add("message", message);
+            dictionary.Add("prop1", "campus prop event");
             _telemetryClient.TrackEvent(name, dictionary);
         }
 

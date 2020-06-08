@@ -23,13 +23,14 @@ namespace functionNet01
 
             var trackingService = new TrackingService();
             trackingService.TrackCustomEvent("CampusEvent", "Lorem ipsum from HttpGet02");
-            trackingService.TrackCustomMetric("Campus", new Random().NextDouble()*10);
-
-            Thread.Sleep(new Random().Next(4,8) * 1000);
+            
+            var sleepingTime = new Random().Next(4,8) * 1000;
+            trackingService.TrackCustomMetric("HttpGet02 Duration", sleepingTime);
+            Thread.Sleep(sleepingTime);
 
             log.LogInformation("HttpGet02 log information");
 
-            string responseMessage = "Hello Campus";
+            string responseMessage = $"Hello Campus; SleepingTime: {sleepingTime/1000}s";
             return new OkObjectResult(responseMessage);
         }
     }
